@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">MapsProject</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title">Add Title</string>
+    <string name="author">Add Author</string>
+    <string name="genre">Add Genre</string>
+    <string name="submit_btn">Submit</string>
+    <string name="find_book">Find Book</string>
+    <string name="add_book">Add Book</string>
+    <string name="settings">Settings</string>
+    <string name="app_name_hp">Book Borrow</string>
+    <string name="home_btn">Home</string>
+    <string name="search_btn">Search</string>
+    <string name="book_finder">Book Finder</string>
+</resources>
