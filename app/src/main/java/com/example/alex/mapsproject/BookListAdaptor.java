@@ -33,11 +33,11 @@ public class BookListAdaptor {
     private static final String DATABASE_CREATE =
             "CREATE TABLE if not exists " + SQLITE_TABLE + " (" +
                     KEY_ROWID + " integer PRIMARY KEY autoincrement," +
-                    KEY_LAT + "," +
-                    KEY_LONG + "," +
+                    "KEY_LAT" + "," +
+                    "KEY_LONG" + "," +
                     KEY_TITLE + "," +
                     KEY_AUTHOR + "," +
-                    KEY_GENRE;
+                    KEY_GENRE + ");";
 
     public static class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -79,11 +79,11 @@ public class BookListAdaptor {
         }
     }
 
-    public long createBook(double myLat, double myLong, String title,String author, String genre) {
+    public long createBook(int id, double myLat, double myLong, String title,String author, String genre) {
 
         ContentValues initialValues = new ContentValues();
 
-        //initialValues.put(KEY_ROWID, id);
+        initialValues.put(KEY_ROWID, id);
         initialValues.put(Double.toString(KEY_LAT), myLat);
         initialValues.put(Double.toString(KEY_LONG), myLong);
         initialValues.put(KEY_TITLE, title);
@@ -135,8 +135,8 @@ public class BookListAdaptor {
     }
 
     public void insertSomeBooks() {
-        createBook(42.3, 18.6, "The Stranger","Albert Camus","Comedy");
-        createBook(100.3, 32.6, "Art of Going With It","Alex DiStasi","Comedy");
+        createBook(1, 42.3, 18.6, "The Stranger","Albert Camus","Comedy");
+        createBook(2, 100.3, 32.6, "Art of Going With It","Alex DiStasi","Comedy");
     }
 
 

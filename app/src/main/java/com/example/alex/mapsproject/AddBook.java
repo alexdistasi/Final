@@ -24,7 +24,7 @@ public class AddBook extends Activity {
 
     public BookListAdaptor myDB;
 
-    private int id=2;
+    private int id=3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +70,8 @@ public class AddBook extends Activity {
         //database.addBook(bookIn);
 
 
-        myDB.createBook(myLongitude, myLat, titleStr, authorStr, genreStr);
+        myDB.createBook(id, myLongitude, myLat, titleStr, authorStr, genreStr);
+        id++;
 
         String myres = titleStr + " " + authorStr + " " + genreStr + " " + myLat;
         //BookLoc_Itm x= database.getBooks(id); //model class
@@ -79,9 +80,9 @@ public class AddBook extends Activity {
         Toast.makeText(this, myres , Toast.LENGTH_SHORT).show();
         //Intent launchRes = new Intent(this, FindBook.class);
         //launchRes.putExtra("DBTEST", myres);
-        //Intent launchHome = new Intent(this, MainActivity.class);
+        Intent launchHome = new Intent(this, MainActivity.class);
         //START THE ADD BOOK ACTIVITY
-        //startActivity(launchHome);
+        startActivity(launchHome);
     }
 
 
