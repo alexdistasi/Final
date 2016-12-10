@@ -11,5 +11,6 @@
     <string name="app_name_hp">Book Borrow</string>
     <string name="home_btn">Home</string>
     <string name="search_btn">Search</string>
+    <string name="view_book_btn">View Books</string>
     <string name="book_finder">Book Finder</string>
 </resources>

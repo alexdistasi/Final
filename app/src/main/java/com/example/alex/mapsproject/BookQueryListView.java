@@ -1,5 +1,6 @@
 package com.example.alex.mapsproject;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.SimpleCursorAdapter;
@@ -12,49 +13,35 @@ import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.Toast;
 
-
 /**
- * Created by Alex on 12/6/2016.
+ * Created by Alex on 12/10/2016.
  */
-public class BookListViewCursorAdaptor extends AppCompatActivity {
+public class BookQueryListView extends AppCompatActivity{
     private BookListAdaptor dbHelper2;
     public SimpleCursorAdapter dataAdapter;
+    public  String qryTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_books); //make new show_books
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Add new country", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                Intent addBookIntent = new Intent(BookListViewCursorAdaptor.this, AddBook.class);
-                startActivity(addBookIntent);
-
-            }
-        }); */
 
         dbHelper2 = new BookListAdaptor(this);
         dbHelper2.open();
 
+        Intent qryBooks = getIntent();
+
+        //retrieves data from an intent in main
+        qryTitle=qryBooks.getStringExtra("titleIn");
         //Generate ListView from SQLite Database
         displayListView();
-
-
 
     }
 
 
-
-
     private void displayListView() {
 
-        Cursor cursor = dbHelper2.fetchAllBooks();
+        Cursor cursor = dbHelper2.fetchBooksByTitle(qryTitle);
 
         // The desired columns to be bound
         String[] columns = new String[]{
@@ -101,8 +88,7 @@ public class BookListViewCursorAdaptor extends AppCompatActivity {
                 Cursor cursor = (Cursor) listView.getItemAtPosition(position);
 
 
-                String titleName =
-                        cursor.getString(cursor.getColumnIndexOrThrow("title"));
+                String titleName = cursor.getString(cursor.getColumnIndexOrThrow("title"));
                 titleName = "The book owner has been notified";
                 Toast.makeText(getApplicationContext(),
                         titleName, Toast.LENGTH_SHORT).show();
@@ -147,6 +133,3 @@ public class BookListViewCursorAdaptor extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 }
-
-
-

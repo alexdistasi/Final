@@ -11,8 +11,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
     }
 
     public void launchAddBook(View view) {
@@ -24,11 +22,17 @@ public class MainActivity extends Activity {
 
     public void launchFindBook(View view) {
         //CREATE AN INTENT TO DISPLAY THE FIND BOOK ACTIVITY
-        Intent launchFindBook = new Intent(this, BookListViewCursorAdaptor.class);
+        Intent launchFindBook = new Intent(this, FindBook.class);
         //START THE FIND BOOK ACTIVITY
         startActivity(launchFindBook);
     }
 
+    public void launchShowBooks(View view){
+        //CREATE AN INTENT TO DISPLAY THE FIND BOOK ACTIVITY
+        Intent launchBook = new Intent(this, BookListViewCursorAdaptor.class);
+        //START THE FIND BOOK ACTIVITY
+        startActivity(launchBook);
+    }
     public void launchPreferences(View view) {
         //CREATE AN INTENT TO DISPLAY THE SETTINGS ACTIVITY
         Intent launchPref = new Intent(this, Preferences.class);

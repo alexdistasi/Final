@@ -33,6 +33,7 @@ public class AddBook extends Activity {
 
         myDB = new BookListAdaptor(this);
         myDB.open();
+        //myDB.deleteAllBooks();
         //myDB.insertSomeBooks();
 
         myLongitude = bookLocation.getDoubleExtra("LongPoint", 0.0);

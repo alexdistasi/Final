@@ -1,6 +1,7 @@
 package com.example.alex.mapsproject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -16,10 +17,13 @@ public class FindBook extends Activity{
     String titleStr;
     String authorStr;
     String genreStr;
+    public BookListAdaptor myDB;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.find_book);
+        myDB = new BookListAdaptor(this);
+        myDB.open();
         titleStr=""; authorStr=""; genreStr="";
 
         titleET = (EditText)findViewById(R.id.ftitleET);
@@ -48,7 +52,13 @@ public class FindBook extends Activity{
         authorStr = authorET.getText().toString();
         genreStr = genreET.getText().toString();
         Toast.makeText(this, "PRESSED BTN" , Toast.LENGTH_SHORT).show();
-
+        //myDB.fetchBooksByTitle(titleStr);
+        //Intent launchRes = new Intent(this, FindBook.class);
+        //launchRes.putExtra("DBTEST", myres);
+        Intent launchQry = new Intent(this, BookQueryListView.class);
+        launchQry.putExtra("titleIn", titleStr);
+        //START THE ADD BOOK ACTIVITY
+        startActivity(launchQry);
     }
 
     public void activateMain(View view) {
