@@ -20,11 +20,10 @@ public class AddBook extends Activity {
     private String genreStr;
     private double myLongitude;
     private double myLat;
-    public DBHelper database;
 
     public BookListAdaptor myDB;
 
-    private int id=3;
+    private int id=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +33,7 @@ public class AddBook extends Activity {
 
         myDB = new BookListAdaptor(this);
         myDB.open();
-        myDB.insertSomeBooks();
+        //myDB.insertSomeBooks();
 
         myLongitude = bookLocation.getDoubleExtra("LongPoint", 0.0);
         myLat = bookLocation.getDoubleExtra("LatPoint", 0.0);

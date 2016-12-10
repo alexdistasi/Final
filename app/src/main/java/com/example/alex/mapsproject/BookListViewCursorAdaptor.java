@@ -1,27 +1,20 @@
 package com.example.alex.mapsproject;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
 
 /**
  * Created by Alex on 12/6/2016.
  */
 public class BookListViewCursorAdaptor extends AppCompatActivity {
-    private BookListAdaptor dbHelper;
+    private BookListAdaptor dbHelper2;
     public SimpleCursorAdapter dataAdapter;
 
     @Override
@@ -43,13 +36,8 @@ public class BookListViewCursorAdaptor extends AppCompatActivity {
             }
         }); */
 
-        dbHelper = new BookListAdaptor(this);
-        dbHelper.open();
-
-        //Clean all data
-        dbHelper.deleteAllBooks();
-        //Add some data
-        dbHelper.insertSomeBooks();
+        dbHelper2 = new BookListAdaptor(this);
+        dbHelper2.open();
 
         //Generate ListView from SQLite Database
         displayListView();
@@ -60,15 +48,17 @@ public class BookListViewCursorAdaptor extends AppCompatActivity {
 
 
 
+
     private void displayListView() {
 
-        Cursor cursor = dbHelper.fetchAllBooks();
+        Cursor cursor = dbHelper2.fetchAllBooks();
 
         // The desired columns to be bound
         String[] columns = new String[]{
 
-                Double.toString(BookListAdaptor.KEY_LAT),
-                Double.toString(BookListAdaptor.KEY_LONG),
+                //BookListAdaptor.KEY_ROWID,
+                BookListAdaptor.KEY_LAT,
+                BookListAdaptor.KEY_LONG,
                 BookListAdaptor.KEY_TITLE,
                 BookListAdaptor.KEY_AUTHOR,
                 BookListAdaptor.KEY_GENRE,
@@ -95,10 +85,12 @@ public class BookListViewCursorAdaptor extends AppCompatActivity {
 
         ListView listView = (ListView) findViewById(R.id.listView1);
         // Assign adapter to ListView
+
+        //LINEE THAT BREAKS
         listView.setAdapter(dataAdapter);
 
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> listView, View view,
                                     int position, long id) {
@@ -107,40 +99,19 @@ public class BookListViewCursorAdaptor extends AppCompatActivity {
 
                 // Get the state's capital from this row in the database.
                 String countryCode =
-                        cursor.getString(cursor.getColumnIndexOrThrow("code"));
+                        cursor.getString(cursor.getColumnIndexOrThrow("title"));
                 Toast.makeText(getApplicationContext(),
                         countryCode, Toast.LENGTH_SHORT).show();
 
             }
-        });
+        }); */
 
-        EditText myFilter = (EditText) findViewById(R.id.myFilter);
-        myFilter.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {
-            }
-
-            public void beforeTextChanged(CharSequence s, int start,
-                                          int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start,
-                                      int before, int count) {
-                dataAdapter.getFilter().filter(s.toString());
-            }
-        });
 
         dataAdapter.setFilterQueryProvider(new FilterQueryProvider() {
             public Cursor runQuery(CharSequence constraint) {
-                return dbHelper.fetchBooksByTitle(constraint.toString());
+                return dbHelper2.fetchBooksByTitle(constraint.toString());
             }
         });
-    }
-
-
-    public void addBook(View view){
-        Intent addBookIntent = new Intent(BookListViewCursorAdaptor.this, AddBook.class);
-        startActivity(addBookIntent);
     }
 
 
@@ -165,7 +136,7 @@ public class BookListViewCursorAdaptor extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-       // if (id == R.id.action_settings) {
+        //if (id == R.id.action_settings) {
         //    return true;
         //}
 

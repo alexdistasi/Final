@@ -13,9 +13,8 @@ import android.util.Log;
  */
 public class BookListAdaptor {
     public static final String KEY_ROWID = "_id";
-   // public static final String KEY_CODE = "code";
-    public static final double KEY_LAT = 0;
-    public static final double KEY_LONG = 0;
+    public static final String KEY_LAT = "lat";
+    public static final String KEY_LONG = "long";
     public static final String KEY_TITLE = "title";
     public static final String KEY_AUTHOR = "author";
     public static final String KEY_GENRE = "genre";
@@ -33,8 +32,8 @@ public class BookListAdaptor {
     private static final String DATABASE_CREATE =
             "CREATE TABLE if not exists " + SQLITE_TABLE + " (" +
                     KEY_ROWID + " integer PRIMARY KEY autoincrement," +
-                    "KEY_LAT" + "," +
-                    "KEY_LONG" + "," +
+                    KEY_LAT + "," +
+                    KEY_LONG + "," +
                     KEY_TITLE + "," +
                     KEY_AUTHOR + "," +
                     KEY_GENRE + ");";
@@ -83,9 +82,9 @@ public class BookListAdaptor {
 
         ContentValues initialValues = new ContentValues();
 
-        initialValues.put(KEY_ROWID, id);
-        initialValues.put(Double.toString(KEY_LAT), myLat);
-        initialValues.put(Double.toString(KEY_LONG), myLong);
+        //initialValues.put(KEY_ROWID, id);
+        initialValues.put(KEY_LAT, myLat);
+        initialValues.put(KEY_LONG, myLong);
         initialValues.put(KEY_TITLE, title);
         initialValues.put(KEY_AUTHOR, author);
         initialValues.put(KEY_GENRE, genre);
@@ -106,15 +105,15 @@ public class BookListAdaptor {
         Log.w(TAG, inputText);
         Cursor mCursor = null;
         if (inputText == null  ||  inputText.length () == 0)  {
-            mCursor = mDb.query(SQLITE_TABLE, new String[] {KEY_ROWID, Double.toString(KEY_LAT), Double.toString(KEY_LONG),
-                    KEY_TITLE, KEY_AUTHOR, KEY_GENRE},
-                    null, null, null, null, null);
+            mCursor = mDb.query(SQLITE_TABLE, new String[] {KEY_ROWID, KEY_LAT, KEY_LONG,
+                            KEY_TITLE, KEY_AUTHOR, KEY_GENRE},
+                    null, null, null, null, null, null);
         }
         else {
-            mCursor = mDb.query(true, SQLITE_TABLE, new String[] {KEY_ROWID,Double.toString(KEY_LAT), Double.toString(KEY_LONG),
-                    KEY_TITLE, KEY_AUTHOR, KEY_GENRE},
+            mCursor = mDb.query(true, SQLITE_TABLE, new String[] {KEY_ROWID, KEY_LAT, KEY_LONG,
+                            KEY_TITLE, KEY_AUTHOR, KEY_GENRE},
                     KEY_TITLE + " like '%" + inputText + "%'", null,
-                    null, null, null, null);
+                    null, null, null, null, null);
         }
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -124,9 +123,9 @@ public class BookListAdaptor {
 
     public Cursor fetchAllBooks() {
 
-        Cursor mCursor = mDb.query(SQLITE_TABLE, new String[] {KEY_ROWID, Double.toString(KEY_LAT), Double.toString(KEY_LONG),
-                KEY_TITLE, KEY_AUTHOR, KEY_GENRE},
-                null, null, null, null, null);
+        Cursor mCursor = mDb.query(SQLITE_TABLE, new String[] {KEY_ROWID, KEY_LAT, KEY_LONG,
+                        KEY_TITLE, KEY_AUTHOR, KEY_GENRE},
+                null, null, null, null, null, null);
 
         if (mCursor != null) {
             mCursor.moveToFirst();

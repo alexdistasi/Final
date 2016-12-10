@@ -23,7 +23,6 @@ public class BookLoc_Itm {
     // public BookLoc_Itm(int idIn, double latIn, double longIn, String titleIn, String genreIn, String authorIn){
     public BookLoc_Itm(int idIn, double latIn, double longIn, String titleIn, String genreIn, String authorIn){
         _id=idIn;
-
         lat = latIn;
         longi = longIn;
         title = titleIn;
