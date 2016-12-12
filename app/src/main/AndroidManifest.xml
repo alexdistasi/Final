@@ -29,7 +29,8 @@
             android:value="@string/google_maps_key" />
 
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,6 +40,7 @@
 
         <activity
             android:name=".MapsActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_maps"
             android:parentActivityName=".MainActivity" >
             <meta-data
@@ -50,6 +52,7 @@
 
         <activity
             android:name=".AddBook"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:parentActivityName=".MainActivity" >
             <meta-data
@@ -59,6 +62,7 @@
 
         <activity
             android:name=".FindBook"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:parentActivityName=".MainActivity" >
             <meta-data
@@ -68,6 +72,7 @@
 
         <activity
             android:name=".Preferences"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:parentActivityName=".MainActivity" >
             <meta-data
@@ -77,6 +82,7 @@
 
         <activity
             android:name=".BookListViewCursorAdaptor"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:parentActivityName=".MainActivity" >
             <meta-data
@@ -86,6 +92,7 @@
 
         <activity
             android:name=".BookQueryListView"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:parentActivityName=".MainActivity" >
             <meta-data

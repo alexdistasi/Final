@@ -1,10 +1,14 @@
 package com.example.alex.mapsproject;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 /**
@@ -18,6 +22,8 @@ public class FindBook extends Activity{
     String authorStr;
     String genreStr;
     public BookListAdaptor myDB;
+    private String name;
+    private int themeID;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +51,13 @@ public class FindBook extends Activity{
                 genreStr=genreET.getText().toString();
             }
         });
+
+        setPreferences();
+        setLayoutBackgrd();
+        ActionBar ab=getActionBar();
+        if(name!=null) {
+            ab.setTitle(getResources().getString(R.string.app_name) + " - " + name);
+        }
     }
 
     public void findBooks(View view) {
@@ -59,6 +72,32 @@ public class FindBook extends Activity{
         launchQry.putExtra("titleIn", titleStr);
         //START THE ADD BOOK ACTIVITY
         startActivity(launchQry);
+    }
+
+    public void setPreferences(){
+        //create instance of SharedPreferences
+        SharedPreferences setPref = this.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE );
+
+        //getfunctions to get data stored in sharedpref file
+        name = setPref.getString("UserName","");
+        themeID = setPref.getInt("theme", 0);
+
+    }
+    public void setLayoutBackgrd(){
+        if(themeID != 0){
+            RelativeLayout setBkgrd = (RelativeLayout)findViewById(R.id.findLayout);
+            if(themeID == 1){
+                setBkgrd.setBackgroundColor(getResources().getColor(R.color.ltOrange));
+            }else if(themeID == 2){
+                setBkgrd.setBackgroundColor(getResources().getColor(R.color.ltblue));
+            }else if(themeID == 3){
+                setBkgrd.setBackgroundColor(getResources().getColor(R.color.lightRed));
+            }else if(themeID == 4){
+                setBkgrd.setBackgroundColor(getResources().getColor(R.color.green));
+
+            }
+
+        }
     }
 
     public void activateMain(View view) {

@@ -1,6 +1,10 @@
 package com.example.alex.mapsproject;
 
+import android.app.ActionBar;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.SimpleCursorAdapter;
@@ -11,15 +15,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 /**
  * Created by Alex on 12/10/2016.
  */
-public class BookQueryListView extends AppCompatActivity{
+public class BookQueryListView extends Activity{
     private BookListAdaptor dbHelper2;
     public SimpleCursorAdapter dataAdapter;
     public  String qryTitle;
+    private String name;
+    private int themeID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +42,8 @@ public class BookQueryListView extends AppCompatActivity{
         qryTitle=qryBooks.getStringExtra("titleIn");
         //Generate ListView from SQLite Database
         displayListView();
+        setPreferences();
+        setLayoutBackgrd();
 
     }
 
@@ -131,5 +140,34 @@ public class BookQueryListView extends AppCompatActivity{
         //}
 
         return super.onOptionsItemSelected(item);
+    }
+    public void setLayoutBackgrd(){
+        ActionBar ab=getActionBar();
+        if(name!=null) {
+            ab.setTitle(getResources().getString(R.string.app_name) + " - " + name);
+        }
+        if(themeID != 0){
+            RelativeLayout settingsBkgrd = (RelativeLayout)findViewById(R.id.showBksLayout);
+            if(themeID == 1){
+                settingsBkgrd.setBackgroundColor(getResources().getColor(R.color.ltOrange));
+            }else if(themeID == 2){
+                settingsBkgrd.setBackgroundColor(getResources().getColor(R.color.ltblue));
+            }else if(themeID == 3){
+                settingsBkgrd.setBackgroundColor(getResources().getColor(R.color.lightRed));
+            }else if(themeID == 4){
+                settingsBkgrd.setBackgroundColor(getResources().getColor(R.color.green));
+
+            }
+
+        }
+    }
+
+    public void setPreferences() {
+        //create instance of SharedPreferences
+        SharedPreferences setPref = this.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+
+        //getfunctions to get data stored in sharedpref file
+        name = setPref.getString("UserName", "");
+        themeID = setPref.getInt("theme", 0);
     }
 }

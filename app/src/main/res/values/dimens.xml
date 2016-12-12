@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="thefontsize">20sp</dimen>
+    <dimen name="btnWidth">140dp</dimen>
+    <dimen name="btnHeight">50dp</dimen>
+    <dimen name="edgeMargin">20dp</dimen>
+    <dimen name="smallMargin">5dp</dimen>
+    <dimen name="largeMargin">50dp</dimen>
+    <dimen name="btmMargin">24dp</dimen>
+    <dimen name="textPadd">4dp</dimen>
+    <dimen name="imgWdth">180dp</dimen>
+    <dimen name="paddMore">12dp</dimen>
+    <dimen name="largerMargin">70dp</dimen>
+</resources>

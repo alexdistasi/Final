@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MapsProject</string>
+    <string name="app_name">Book Borrow</string>
     <string name="title_activity_maps">Map</string>
     <string name="title">Add Title</string>
     <string name="author">Add Author</string>
@@ -13,4 +13,16 @@
     <string name="search_btn">Search</string>
     <string name="view_book_btn">View Books</string>
     <string name="book_finder">Book Finder</string>
+    <string name="addBk">Add a Book</string>
+
+
+    <string name="hint">Enter Your Name Above</string>
+    <string name="settingPg">Settings</string>
+    <string name="setting1">Orange Hue</string>
+    <string name="setting2">Blue Hue</string>
+    <string name="setting3">Red Hue</string>
+    <string name="setting4">Green Hue</string>
+    <string name="settingTheme">Select a Background Color Here</string>
+
+
 </resources>

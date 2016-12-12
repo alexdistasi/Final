@@ -3,4 +3,25 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="blackTxt">#000000</color>
+    <color name="beige">#f5f5dc</color>
+
+    <color name="defaultBkgrd">#ede2cb</color>
+    <color name="defaultRd">#E5252a</color>
+    <color name="lightRed">#ffe5e5</color>
+
+    <color name="ltblue">#c7fbff</color>
+    <color name="defaultLtBlue">#00afa8</color>
+    <color name="defaultBlue">#11334a</color>
+    <color name="ltOrange">#ffd27f</color>
+    <color name="defaultOrg">#FFa750</color>
+    <color name="defaultMedBlue">#116385</color>
+    <color name="darkGray">#393939</color>
+    <color name="darkOrng">#ff5934</color>
+    <color name="green">#6bad57</color>
+    <color name="textEnter">#e7d096</color>
+
+
+
 </resources>

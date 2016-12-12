@@ -21,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -215,7 +216,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
         //LatLng sydney = new LatLng(-34, 151);
         LatLng myLoc = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
 
-        mMap.addMarker(new MarkerOptions().position(myLoc).title("You are here!"));
+        mMap.addMarker(new MarkerOptions().position(myLoc).title("You are here!").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_book_pointer)));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myLoc));
         pointTmp=myLoc;
         sendLocation(pointTmp);

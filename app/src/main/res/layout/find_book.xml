@@ -1,25 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/findLayout"
+    android:background="@color/defaultBkgrd">
+
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/home_btn"
-        android:id="@+id/button5"
-        android:onClick="activateMain"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/btnWidth"
+        android:layout_height="@dimen/btnHeight"
+        android:gravity="bottom|center"
+        android:paddingBottom="@dimen/textPadd"
         android:text="@string/search_btn"
-        android:id="@+id/onSubmit"
-        android:layout_above="@+id/button5"
+        android:id="@+id/searchBtn"
+        android:onClick="findBooks"
+        android:background="@drawable/orange_selector"
+        android:layout_marginBottom="@dimen/paddMore"
+        android:layout_above="@+id/homeBtn"
         android:layout_centerHorizontal="true"
-        android:onClick="findBooks" />
+        android:textStyle="bold" />
+
+    <Button
+        android:layout_width="@dimen/btnWidth"
+        android:layout_height="@dimen/btnHeight"
+        android:gravity="bottom|center"
+        android:paddingBottom="@dimen/textPadd"
+        android:text="@string/home_btn"
+        android:id="@+id/homeBtn"
+        android:onClick="activateMain"
+        android:background="@drawable/blue_selector"
+        android:layout_marginBottom="@dimen/btmMargin"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold" />
+
+
+
+
+    <ImageView
+        android:layout_width="@dimen/imgWdth"
+        android:layout_height="@dimen/imgWdth"
+        android:background="@drawable/ic_bkstack"
+        android:id="@+id/leftImg"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -27,16 +52,18 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/book_finder"
         android:id="@+id/textView5"
-        android:layout_alignParentTop="true"
+
+        android:layout_above="@+id/ftitleET"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="42dp" />
+        android:layout_marginBottom="67dp"
+        android:textStyle="bold" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ftitleET"
-        android:layout_below="@+id/textView5"
-        android:layout_marginTop="40dp"
+        android:layout_below="@+id/leftImg"
+        android:layout_marginTop="@dimen/edgeMargin"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true" />
 
@@ -46,7 +73,7 @@
         android:id="@+id/fauthorET"
         android:layout_below="@+id/ftitleET"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="@dimen/paddMore"
         android:layout_alignParentEnd="true" />
 
     <EditText
@@ -55,7 +82,7 @@
         android:id="@+id/fgenreET"
         android:layout_below="@+id/fauthorET"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="58dp"
+        android:layout_marginTop="@dimen/edgeMargin"
         android:layout_alignParentEnd="true" />
 
     <TextView
@@ -65,7 +92,8 @@
         android:text="@string/title"
         android:id="@+id/textView6"
         android:layout_below="@+id/ftitleET"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -74,7 +102,8 @@
         android:text="@string/author"
         android:id="@+id/textView7"
         android:layout_below="@+id/fauthorET"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -83,5 +112,7 @@
         android:text="@string/genre"
         android:id="@+id/textView8"
         android:layout_below="@+id/fgenreET"
-        android:layout_alignStart="@+id/textView7" />
+        android:layout_alignStart="@+id/textView7"
+        android:textStyle="bold" />
+
 </RelativeLayout>

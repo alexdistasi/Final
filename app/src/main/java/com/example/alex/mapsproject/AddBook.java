@@ -1,10 +1,14 @@
 package com.example.alex.mapsproject;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 /**
@@ -20,6 +24,9 @@ public class AddBook extends Activity {
     private String genreStr;
     private double myLongitude;
     private double myLat;
+    private int themeID;
+    private String name;
+
 
     public BookListAdaptor myDB;
 
@@ -38,9 +45,15 @@ public class AddBook extends Activity {
 
         myLongitude = bookLocation.getDoubleExtra("LongPoint", 0.0);
         myLat = bookLocation.getDoubleExtra("LatPoint", 0.0);
-        titleET = (EditText)findViewById(R.id.ftitleET);
+        titleET = (EditText)findViewById(R.id.AtitleET);
         authorET = (EditText)findViewById(R.id.AuthorET);
         genreET = (EditText)findViewById(R.id.GenreET);
+
+        setPreferences();
+        ActionBar ab=getActionBar();
+        if(name!=null) {
+            ab.setTitle(getResources().getString(R.string.app_name) + " - " + name);
+        }
 
         titleET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
@@ -57,6 +70,7 @@ public class AddBook extends Activity {
                 genreStr=genreET.getText().toString();
             }
         });
+        setLayoutBackgrd();
     }
 
     public void onSubmit(View view){
@@ -83,6 +97,31 @@ public class AddBook extends Activity {
         Intent launchHome = new Intent(this, MainActivity.class);
         //START THE ADD BOOK ACTIVITY
         startActivity(launchHome);
+    }
+    public void setLayoutBackgrd(){
+        if(themeID != 0){
+            RelativeLayout setBkgrd = (RelativeLayout)findViewById(R.id.addBkLayout);
+            if(themeID == 1){
+                setBkgrd.setBackgroundColor(getResources().getColor(R.color.ltOrange));
+            }else if(themeID == 2){
+                setBkgrd.setBackgroundColor(getResources().getColor(R.color.ltblue));
+            }else if(themeID == 3){
+                setBkgrd.setBackgroundColor(getResources().getColor(R.color.lightRed));
+            }else if(themeID == 4){
+                setBkgrd.setBackgroundColor(getResources().getColor(R.color.green));
+
+            }
+
+        }
+    }
+    public void setPreferences(){
+        //create instance of SharedPreferences
+        SharedPreferences setPref = this.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE );
+
+        //getfunctions to get data stored in sharedpref file
+        name = setPref.getString("UserName","");
+        themeID = setPref.getInt("theme", 0);
+
     }
 
 

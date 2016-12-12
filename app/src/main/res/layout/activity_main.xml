@@ -1,52 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/actMain"
+    android:background="@color/defaultBkgrd">
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/btnWidth"
+        android:layout_height="@dimen/btnHeight"
+        android:gravity="bottom|center"
+        android:paddingBottom="@dimen/textPadd"
         android:text="@string/view_book_btn"
-        android:id="@+id/button"
+        android:id="@+id/mainBtn_1"
         android:onClick="launchShowBooks"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:background="@drawable/orange_selector"
+        android:layout_above="@+id/mainBtn_2"
+        android:layout_alignStart="@+id/mainBtn_2"
+        android:textAlignment="center"
+        android:textStyle="bold" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/btnWidth"
+        android:layout_height="@dimen/btnHeight"
+        android:gravity="bottom|center"
+        android:paddingBottom="@dimen/textPadd"
         android:text="@string/add_book"
-        android:id="@+id/button2"
+        android:id="@+id/mainBtn_2"
         android:onClick="launchAddBook"
-        android:layout_below="@+id/button"
-        android:layout_centerHorizontal="true" />
+        android:background="@drawable/blue_selector"
+        android:layout_above="@+id/mainBtn_3"
+        android:layout_alignStart="@+id/mainBtn_3"
+        android:textStyle="bold" />
+
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/btnWidth"
+        android:layout_height="@dimen/btnHeight"
+        android:gravity="bottom|center"
+        android:paddingBottom="@dimen/textPadd"
+        android:text="@string/find_book"
+        android:id="@+id/mainBtn_3"
+        android:onClick="launchFindBook"
+        android:background="@drawable/green_selector"
+        android:layout_marginBottom="@dimen/btmMargin"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/settings"
-        android:id="@+id/button3"
-        android:onClick="launchPreferences"
-        android:layout_below="@+id/button6"
-        android:layout_alignStart="@+id/button2" />
+        android:background="@drawable/ic_mainbkshelf"
+        android:id="@+id/mainImg"
+        android:layout_marginLeft="@dimen/edgeMargin"
+        android:layout_marginRight="@dimen/edgeMargin"
+        android:layout_above="@+id/mainBtn_2"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/largeMargin" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginRight="@dimen/smallMargin"
+        android:textColor="@color/defaultBlue"
+        android:layout_marginLeft="@dimen/smallMargin"
+        android:paddingBottom="@dimen/textPadd"
+        android:paddingTop="@dimen/textPadd"
         android:text="@string/app_name_hp"
         android:id="@+id/textView4"
+        android:textSize="40sp"
+        android:background="@color/defaultLtBlue"
+        android:layout_marginTop="46dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:textSize="40sp" />
+        android:textAlignment="center" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/find_book"
-        android:id="@+id/button6"
-        android:layout_below="@+id/button2"
-        android:layout_centerHorizontal="true"
-        android:onClick="launchFindBook" />
+
+
+
 </RelativeLayout>
