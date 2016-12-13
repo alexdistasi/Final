@@ -3,6 +3,7 @@ package com.example.alex.mapsproject;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,19 +17,22 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLocationButtonClickListener,
         OnMapReadyCallback, GoogleMap.OnMapClickListener,
         ActivityCompat.OnRequestPermissionsResultCallback,
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     /**
      * Request code for location permission request.
@@ -43,16 +47,21 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
      */
     private boolean mPermissionDenied = false;
     private GoogleMap mMap;
-    private GoogleApiClient mGoogleApiClient;
-    private Location mLastLocation;
+    GoogleApiClient mGoogleApiClient;
+    Location mLastLocation;
+    LocationRequest myLocateRequest;
+    Marker myMarker;
     public String mLatitudeText;
     public String mLongitudeText;
     public LatLng pointTmp;
+    public LatLng initialPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_maps);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -69,6 +78,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
                     .addApi(LocationServices.API)
                     .addApi(AppIndex.API).build();
         }
+
+        Log.v("in OnCreate ", " On Create Called");
     }
 
     /**
@@ -91,6 +102,21 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
                 Uri.parse("android-app://com.example.alex.mapsproject/http/host/path")
         );
         AppIndex.AppIndexApi.start(mGoogleApiClient, viewAction);
+
+        Log.v("in OnStart ", " On Start Called");
+
+    }
+
+    // calling intent method onPause, or a tost that no location was selected
+    protected void onPause(){
+        super.onPause();
+        if(pointTmp != null) {
+            Toast.makeText(this, "Your book location has been added!", Toast.LENGTH_SHORT).show();
+            sendLocation(pointTmp);
+        }else {
+            Toast.makeText(this, "You did not select a location, no book added", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     protected void onStop() {
@@ -109,6 +135,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
                 Uri.parse("android-app://com.example.alex.mapsproject/http/host/path")
         );
         AppIndex.AppIndexApi.end(mGoogleApiClient, viewAction);
+
     }
 
     @Override
@@ -136,15 +163,30 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        // LatLng sydney = new LatLng(-34, 151);
-        // mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        // mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
         mMap.setOnMyLocationButtonClickListener(this);
-        //mMap.setOnMapClickListener(this);
-        enableMyLocation();
+        mMap.setOnMapClickListener(this);
+
+
+//        Log.v("DEBUG", "checning point [" + initialPoint.latitude + " / " + initialPoint.longitude + "]");
+
+
+
+        // Add a marker in Sydney and move the camera
+         LatLng sydney = new LatLng(-34, 151);
+         //mMap.addMarker(new MarkerOptions().position(sydney).title("You Are Here"));
+
+        mMap.addMarker(new MarkerOptions().position(sydney).icon(BitmapDescriptorFactory.
+                fromBitmap(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_here))));
+         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+
+        Log.v("in OnMapReady ", " OnMapReady Called");
+
+
+
+
     }
+//  ic_mappoint.png
 
     /**
      * This is the callback method for the mapClickListener
@@ -154,23 +196,17 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
     public void onMapClick(LatLng point) {
         Toast.makeText(this, "Map clicked", Toast.LENGTH_SHORT).show();
         Log.v("DEBUG", "Map clicked [" + point.latitude + " / " + point.longitude + "]");
+
+        mMap.addMarker(new MarkerOptions().position(point).icon(BitmapDescriptorFactory.
+                fromBitmap(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_mappoint))));
+
         //Do your stuff with LatLng here
         //Then pass LatLng to other activity
 
 
     }
 
-    public void sendLocation(LatLng pointTmp) {
-        //CREATE AN INTENT TO DISPLAY THE SURVEY INFORMATION
-        Intent launchResults = new Intent(this, AddBook.class);
-        //ASS THE SURVEY SUMMARY ACTIVITY DATA FROM THE SUMMARY:
-        double lat = pointTmp.latitude;
-        double longitude= pointTmp.longitude;
-        launchResults.putExtra("LatPoint", lat);
-        launchResults.putExtra("LongPoint", longitude);
-        //START THE SURVEY RESULTS ACTIVITY
-        startActivity(launchResults);
-    }
+
 
     /**
      * Enables the My Location layer if the fine location permission has been granted.
@@ -180,8 +216,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
                 != PackageManager.PERMISSION_GRANTED) {
             // Permission to access the location is missing.
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    LOCATION_PERMISSION_REQUEST_CODE
-            );
+                    LOCATION_PERMISSION_REQUEST_CODE);
             /*
             ActivityCompat.requestPermissions(thisActivity,
                     new String[]{Manifest.permission.READ_CONTACTS},
@@ -192,11 +227,15 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
             mMap.setMyLocationEnabled(true);
             Log.v("enableMyLocation: ", "Permission granted");
         }
+
+        Log.v("in Enaplemylocation ", " EnablemyLocation Called");
+
+
     }
 
     @Override
     public boolean onMyLocationButtonClick() {
-        Toast.makeText(this, "Your location has been added!", Toast.LENGTH_SHORT).show();
+ //       Toast.makeText(this, "Your location has been added!", Toast.LENGTH_SHORT).show();
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
         Log.v("MapsActivity:", "Map click detected");
@@ -216,10 +255,10 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
         //LatLng sydney = new LatLng(-34, 151);
         LatLng myLoc = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
 
-        mMap.addMarker(new MarkerOptions().position(myLoc).title("You are here!").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_book_pointer)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLoc));
+//        mMap.addMarker(new MarkerOptions().position(myLoc).title("You are here!").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_book_pointer)));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLoc));
         pointTmp=myLoc;
-        sendLocation(pointTmp);
+//        sendLocation(pointTmp);
         return false;
     }
 
@@ -231,22 +270,33 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
      */
     @Override
     public void onConnected(Bundle connectionHint) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+        enableMyLocation();
+        myLocateRequest = new LocationRequest();
+        myLocateRequest.setInterval(1000).setFastestInterval(1000)
+                .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED &&
+//                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+//                        != PackageManager.PERMISSION_GRANTED) {
+//            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,myLocateRequest,this);
+//        }
+
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,myLocateRequest,this);
         }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
-        if (mLastLocation != null) {
-            mLatitudeText = String.valueOf(mLastLocation.getLatitude());
-            mLongitudeText = String.valueOf(mLastLocation.getLongitude());
-        }
+//        if (mLastLocation != null) {
+//            mLatitudeText = String.valueOf(mLastLocation.getLatitude());
+//            mLongitudeText = String.valueOf(mLastLocation.getLongitude());
+//        }
+
+        Log.v("in OnConnected ", " OnConnected Called");
+
+
     }
 
     @Override
@@ -301,6 +351,53 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
     }
 
 
+    @Override
+    public void onLocationChanged(Location location) {
+
+        if (mLastLocation != null) {
+            mLatitudeText = String.valueOf(mLastLocation.getLatitude());
+            mLongitudeText = String.valueOf(mLastLocation.getLongitude());
+        }
+///////////////////
+        Log.v("in locationChanged", " - pleaes be in here ");
 
 
+        mLastLocation = location;
+        if (myMarker != null) {
+            myMarker.remove();
+        }
+
+        LatLng latLng1 = new LatLng(location.getLatitude(),location.getLongitude());
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.title("Current Book Location");
+        markerOptions.position(latLng1);
+        markerOptions.icon(BitmapDescriptorFactory.
+                fromBitmap(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_here)));
+
+
+        // set marker icon
+        myMarker = mMap.addMarker(markerOptions);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng1));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+
+
+        if (mGoogleApiClient != null) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+        }
+
+
+    }
+
+    // Intent - called in onPause
+    public void sendLocation(LatLng pointTmp) {
+        //CREATE AN INTENT TO DISPLAY THE SURVEY INFORMATION
+        Intent launchResults = new Intent(this, AddBook.class);
+        //ASS THE SURVEY SUMMARY ACTIVITY DATA FROM THE SUMMARY:
+        double lat = pointTmp.latitude;
+        double longitude= pointTmp.longitude;
+        launchResults.putExtra("LatPoint", lat);
+        launchResults.putExtra("LongPoint", longitude);
+        //START THE SURVEY RESULTS ACTIVITY
+        startActivity(launchResults);
+    }
 }
