@@ -351,23 +351,27 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
     }
 
 
-    @Override
+    @Override// call back method used to update map with current locaton as location chnges
     public void onLocationChanged(Location location) {
 
+        // if Location object is not empty, get the value of the current location
         if (mLastLocation != null) {
             mLatitudeText = String.valueOf(mLastLocation.getLatitude());
             mLongitudeText = String.valueOf(mLastLocation.getLongitude());
         }
-///////////////////
         Log.v("in locationChanged", " - pleaes be in here ");
 
-
+        // set Location object to new location
         mLastLocation = location;
+            
+         // if there already a marker, remove it 
         if (myMarker != null) {
             myMarker.remove();
         }
 
+        // get new lattitude and lingitude
         LatLng latLng1 = new LatLng(location.getLatitude(),location.getLongitude());
+        // instantiate markerOptions object 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.title("Current Book Location");
         markerOptions.position(latLng1);
@@ -380,23 +384,21 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng1));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
 
-
         if (mGoogleApiClient != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
-
-
     }
 
-    // Intent - called in onPause
+    // Intent - called in onPause and in onMyLocationClicked
+                //sends lattitude and longitude data through intent
     public void sendLocation(LatLng pointTmp) {
         //CREATE AN INTENT TO DISPLAY THE SURVEY INFORMATION
         Intent launchResults = new Intent(this, AddBook.class);
-        //ASS THE SURVEY SUMMARY ACTIVITY DATA FROM THE SUMMARY:
-        double lat = pointTmp.latitude;
-        double longitude= pointTmp.longitude;
-        launchResults.putExtra("LatPoint", lat);
-        launchResults.putExtra("LongPoint", longitude);
+        //ACCESS THE SURVEY SUMMARY ACTIVITY DATA FROM THE SUMMARY:
+        double lat = pointTmp.latitude;// get latitude data
+        double longitude= pointTmp.longitude;// get longitude data
+        launchResults.putExtra("LatPoint", lat); //pass lattitude data in intent
+        launchResults.putExtra("LongPoint", longitude);// pass longitude data in intent
         //START THE SURVEY RESULTS ACTIVITY
         startActivity(launchResults);
     }
