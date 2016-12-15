@@ -28,7 +28,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
+/*********
+*
+*
+*
+*/
 public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLocationButtonClickListener,
         OnMapReadyCallback, GoogleMap.OnMapClickListener,
         ActivityCompat.OnRequestPermissionsResultCallback,
@@ -45,12 +49,12 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
      * Flag indicating whether a requested permission has been denied after returning in
      * {@link #onRequestPermissionsResult(int, String[], int[])}.
      */
-    private boolean mPermissionDenied = false;
-    private GoogleMap mMap;
-    GoogleApiClient mGoogleApiClient;
-    Location mLastLocation;
-    LocationRequest myLocateRequest;
-    Marker myMarker;
+    private boolean mPermissionDenied = false;// permission initialized at false
+    private GoogleMap mMap; // map object
+    GoogleApiClient mGoogleApiClient;// New map api client
+    Location mLastLocation;// stores last location
+    LocationRequest myLocateRequest
+    Marker myMarker; // marker object to mark map in app
     public String mLatitudeText;
     public String mLongitudeText;
     public LatLng pointTmp;
@@ -59,8 +63,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_maps);// sets background for maps
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -102,23 +105,24 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
                 Uri.parse("android-app://com.example.alex.mapsproject/http/host/path")
         );
         AppIndex.AppIndexApi.start(mGoogleApiClient, viewAction);
-
         Log.v("in OnStart ", " On Start Called");
-
     }
 
-    // calling intent method onPause, or a tost that no location was selected
-    protected void onPause(){
+        // map lifecycle, if another page is pulled up wehn map is active, pause will first be called
+        protected void onPause(){
         super.onPause();
         if(pointTmp != null) {
+                // sets toast if user clicks onMyLocationClicked to let user know that location is stored to be paired with book to add
             Toast.makeText(this, "Your book location has been added!", Toast.LENGTH_SHORT).show();
+                // starts AddBook activity passing lattitude and longitude for intent/storage purposes
             sendLocation(pointTmp);
         }else {
+                // sets toast if user uses back button rather than setting locatin
             Toast.makeText(this, "You did not select a location, no book added", Toast.LENGTH_SHORT).show();
         }
-
     }
 
+    // sets behavior for onStop method in lifecycle
     protected void onStop() {
         mGoogleApiClient.disconnect();
         super.onStop();
@@ -135,10 +139,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
                 Uri.parse("android-app://com.example.alex.mapsproject/http/host/path")
         );
         AppIndex.AppIndexApi.end(mGoogleApiClient, viewAction);
-
     }
 
-    @Override
+    @Override// on resume check for location permission stored
     protected void onResumeFragments() {
         super.onResumeFragments();
         if (mPermissionDenied) {
@@ -161,52 +164,24 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        mMap.setOnMyLocationButtonClickListener(this);
-        mMap.setOnMapClickListener(this);
-
-
-//        Log.v("DEBUG", "checning point [" + initialPoint.latitude + " / " + initialPoint.longitude + "]");
-
-
-
-        // Add a marker in Sydney and move the camera
-         LatLng sydney = new LatLng(-34, 151);
-         //mMap.addMarker(new MarkerOptions().position(sydney).title("You Are Here"));
-
+        mMap = googleMap;// copies pointer address for GoogleMap object
+        mMap.setOnMyLocationButtonClickListener(this);// register location button listener
+        mMap.setOnMapClickListener(this); // register mapClick listener
+        LatLng sydney = new LatLng(-34, 151); // sets inital map value to sydney
         mMap.addMarker(new MarkerOptions().position(sydney).icon(BitmapDescriptorFactory.
-                fromBitmap(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_here))));
-         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-
+                fromBitmap(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_here))));// add a custom icon as marker 
+         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));// set marker to Sydney and move the camera to marker location on activity start
         Log.v("in OnMapReady ", " OnMapReady Called");
-
-
-
-
     }
-//  ic_mappoint.png
 
-    /**
-     * This is the callback method for the mapClickListener
-     * @param point the place on the map that was clicked.  Contains latitude and longitude
-     */
-    @Override
+    @Override// call back method for when map clicked - listener for when map is clicked
     public void onMapClick(LatLng point) {
-        Toast.makeText(this, "Map clicked", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Map clicked", Toast.LENGTH_SHORT).show();
         Log.v("DEBUG", "Map clicked [" + point.latitude + " / " + point.longitude + "]");
 
         mMap.addMarker(new MarkerOptions().position(point).icon(BitmapDescriptorFactory.
-                fromBitmap(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_mappoint))));
-
-        //Do your stuff with LatLng here
-        //Then pass LatLng to other activity
-
-
+                fromBitmap(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_mappoint)))); // adds custom marker to map when map clicked
     }
-
-
 
     /**
      * Enables the My Location layer if the fine location permission has been granted.
@@ -227,39 +202,26 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
             mMap.setMyLocationEnabled(true);
             Log.v("enableMyLocation: ", "Permission granted");
         }
-
         Log.v("in Enaplemylocation ", " EnablemyLocation Called");
-
-
     }
 
-    @Override
+    @Override// callback method called when location button is clicked - calls function with intent to pass location data to AddBook activity
     public boolean onMyLocationButtonClick() {
- //       Toast.makeText(this, "Your location has been added!", Toast.LENGTH_SHORT).show();
-        // Return false so that we don't consume the event and the default behavior still occurs
-        // (the camera animates to the user's current position).
         Log.v("MapsActivity:", "Map click detected");
-        // Add a marker in Sydney and move the camera
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+        // check for permission before getting location - if permission denied, do not store location - location should not be accessed
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) 
+            != PackageManager.PERMISSION_GRANTED 
+            && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return false;
         }
+        // gets location
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
-        //LatLng sydney = new LatLng(-34, 151);
-        LatLng myLoc = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-
-//        mMap.addMarker(new MarkerOptions().position(myLoc).title("You are here!").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_book_pointer)));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLoc));
-        pointTmp=myLoc;
-//        sendLocation(pointTmp);
-        return false;
+        LatLng myLoc = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());// sets lattitude and longitude to varible to pass in intentet
+        
+        pointTmp=myLoc;// stores lattitude and longitude to be sent to function to store and pass location data
+        sendLocation(pointTmp);// calls function to pass data in intent and start AddBooks activity for user to enter book data for location
+        return false;// code will not get here due to new activity start - usually returns true, but since it will not be reached, returning false
     }
 
     /**
@@ -270,33 +232,21 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
      */
     @Override
     public void onConnected(Bundle connectionHint) {
-        enableMyLocation();
-        myLocateRequest = new LocationRequest();
-        myLocateRequest.setInterval(1000).setFastestInterval(1000)
-                .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        enableMyLocation();// calls function to enable location
+            
+        myLocateRequest = new LocationRequest(); // performs new location request to update map to current location
+        myLocateRequest.setInterval(1000).setFastestInterval(1000) 
+                .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY); // sets limits/timeframe to check for current location
 
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-//                != PackageManager.PERMISSION_GRANTED &&
-//                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-//                        != PackageManager.PERMISSION_GRANTED) {
-//            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,myLocateRequest,this);
-//        }
-
-
+        // if location changes, update map
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,myLocateRequest,this);
         }
+         
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
-//        if (mLastLocation != null) {
-//            mLatitudeText = String.valueOf(mLastLocation.getLatitude());
-//            mLongitudeText = String.valueOf(mLastLocation.getLongitude());
-//        }
-
         Log.v("in OnConnected ", " OnConnected Called");
-
-
     }
 
     @Override
@@ -309,13 +259,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
         Log.v("Connection Failed ", result.getErrorMessage());
     }
 
-    /**
-     *  These next methods are used to obtain permissions for using maps
-     *
-     **/
-    @Override
-    // public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-    //                                       @NonNull int[] grantResults) {
+    @Override// callback method to request map location permissions
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
         if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
@@ -344,10 +288,10 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
                                               String permission) {
         for (int i = 0; i < grantPermissions.length; i++) {
             if (permission.equals(grantPermissions[i])) {
-                return grantResults[i] == PackageManager.PERMISSION_GRANTED;
+                return grantResults[i] == PackageManager.PERMISSION_GRANTED; // allows to access location
             }
         }
-        return false;
+        return false;// if permission denied, do not allow access for location
     }
 
 
@@ -371,18 +315,14 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
 
         // get new lattitude and lingitude
         LatLng latLng1 = new LatLng(location.getLatitude(),location.getLongitude());
-        // instantiate markerOptions object 
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.title("Current Book Location");
-        markerOptions.position(latLng1);
+        MarkerOptions markerOptions = new MarkerOptions();// instantiate markerOptions object 
+        markerOptions.title("Current Book Location");// sets marker on current location marker
+        markerOptions.position(latLng1); // sets position of current marker based on latLng1 variable
         markerOptions.icon(BitmapDescriptorFactory.
-                fromBitmap(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_here)));
-
-
-        // set marker icon
-        myMarker = mMap.addMarker(markerOptions);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng1));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+                fromBitmap(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_here)));// sets icon as the marker
+        myMarker = mMap.addMarker(markerOptions); // adds marker to map
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng1));// moves map view to marker/current location
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));// zooms into marker and region 
 
         if (mGoogleApiClient != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
