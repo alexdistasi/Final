@@ -9,7 +9,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
- * Created by Alex on 12/6/2016.
+ * File Book List Adaptor
+ * Authors: Alex DiStasi and Denise Fullerton
+ * Date: 12/6/2016
+ * Purpose: Creates a sql database and inserts data from AddBook into new database
  */
 public class BookListAdaptor {
     public static final String KEY_ROWID = "_id";
