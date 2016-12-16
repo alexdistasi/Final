@@ -45,7 +45,7 @@ public class AddBook extends Activity {
         myDB = new BookListAdaptor(this);
         myDB.open();
         //myDB.deleteAllBooks();
-        //myDB.insertSomeBooks();
+        
 
         myLongitude = bookLocation.getDoubleExtra("LongPoint", 0.0);
         myLat = bookLocation.getDoubleExtra("LatPoint", 0.0);
@@ -82,23 +82,15 @@ public class AddBook extends Activity {
         titleStr=titleET.getText().toString();
         authorStr=authorET.getText().toString();
         genreStr=genreET.getText().toString();
-        //database = new DBHelper(this);
-
-        //BookLoc_Itm bookIn = new BookLoc_Itm(id, myLongitude, myLat, titleStr, authorStr, genreStr);
-
-        //database.addBook(bookIn);
-
 
         myDB.createBook(id, myLongitude, myLat, titleStr, authorStr, genreStr);
         id++;
 
         String myres = titleStr + " " + authorStr + " " + genreStr + " " + myLat;
-        //BookLoc_Itm x= database.getBooks(id); //model class
-        //myres = database.getString();
+
 
         Toast.makeText(this, myres , Toast.LENGTH_SHORT).show();
-        //Intent launchRes = new Intent(this, FindBook.class);
-        //launchRes.putExtra("DBTEST", myres);
+       
         Intent launchHome = new Intent(this, MainActivity.class);
         //START THE ADD BOOK ACTIVITY
         startActivity(launchHome);
