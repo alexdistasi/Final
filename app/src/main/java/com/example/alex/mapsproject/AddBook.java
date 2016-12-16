@@ -15,7 +15,8 @@ import android.widget.Toast;
 
 /**
  * File: AddBook.java
- * Created by Alex on 12/4/2016.
+ * Created by Alex DiStasi and Denise Fullerton
+ * Date: 12/4/2016
  * Purpose: This class is used to add data from three edit text files and two doubles representing location to a database
  */
 public class AddBook extends Activity {
@@ -47,6 +48,7 @@ public class AddBook extends Activity {
         //myDB.deleteAllBooks();
         
 
+        //grabs location from an intent
         myLongitude = bookLocation.getDoubleExtra("LongPoint", 0.0);
         myLat = bookLocation.getDoubleExtra("LatPoint", 0.0);
         titleET = (EditText)findViewById(R.id.AtitleET);
