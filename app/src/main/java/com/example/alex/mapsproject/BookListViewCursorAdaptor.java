@@ -18,7 +18,10 @@ import android.widget.Toast;
 import android.app.Activity;
 
 /**
- * Created by Alex on 12/6/2016.
+ * File: BookListCursorAdaptor.java
+ * Authors: Alex DiStasi and Denise Fullerton
+ * Date: 12/6/2016
+ * Purpose: Displays entries from database in a scrolling view format
  */
 public class BookListViewCursorAdaptor extends Activity {
     private BookListAdaptor dbHelper2;
@@ -33,18 +36,7 @@ public class BookListViewCursorAdaptor extends Activity {
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Add new country", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                Intent addBookIntent = new Intent(BookListViewCursorAdaptor.this, AddBook.class);
-                startActivity(addBookIntent);
-
-            }
-        }); */
-
+        //create and open database
         dbHelper2 = new BookListAdaptor(this);
         dbHelper2.open();
 
@@ -57,7 +49,7 @@ public class BookListViewCursorAdaptor extends Activity {
 
 
 
-
+//displays a list of books/entries from the database onto screen
     private void displayListView() {
 
         Cursor cursor = dbHelper2.fetchAllBooks();
@@ -92,13 +84,15 @@ public class BookListViewCursorAdaptor extends Activity {
                 to,
                 0);
 
+        //sets listview in java to listview in the xml
         ListView listView = (ListView) findViewById(R.id.listView1);
+        
         // Assign adapter to ListView
-
-        //LINEE THAT BREAKS
+        //sets adaptor information to listview
         listView.setAdapter(dataAdapter);
 
 
+        //creates on click listener for individual entries in database
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> listView, View view,
@@ -154,6 +148,8 @@ public class BookListViewCursorAdaptor extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+    
+    //sets background color of screen depending on user preferences
     public void setLayoutBackgrd(){
         ActionBar ab=getActionBar();
         if(name!=null) {
@@ -175,6 +171,7 @@ public class BookListViewCursorAdaptor extends Activity {
         }
     }
 
+    //sets preferences from user preferences
     public void setPreferences() {
         //create instance of SharedPreferences
         SharedPreferences setPref = this.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
