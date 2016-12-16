@@ -12,7 +12,10 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 /**
- * Created by Alex on 12/4/2016.
+ * File: FindBook.java
+ * Author: Alex DiStasi and Denise Fullerton
+ * Date: 12/4/2016
+ * Purpose: Find objects in the DB (book titles) that match an input string (from edittext box) using a sqlite query
  */
 public class FindBook extends Activity{
     private EditText titleET;
@@ -60,11 +63,12 @@ public class FindBook extends Activity{
         }
     }
 
+    //on button click, information is grabbed from edittext boxes to be used for a query in the database 
     public void findBooks(View view) {
         titleStr = titleET.getText().toString();
         authorStr = authorET.getText().toString();
         genreStr = genreET.getText().toString();
-        Toast.makeText(this, "PRESSED BTN" , Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "PRESSED BTN" , Toast.LENGTH_SHORT).show();
         //myDB.fetchBooksByTitle(titleStr);
         //Intent launchRes = new Intent(this, FindBook.class);
         //launchRes.putExtra("DBTEST", myres);
@@ -74,6 +78,7 @@ public class FindBook extends Activity{
         startActivity(launchQry);
     }
 
+    //gets user preferences
     public void setPreferences(){
         //create instance of SharedPreferences
         SharedPreferences setPref = this.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE );
@@ -83,6 +88,7 @@ public class FindBook extends Activity{
         themeID = setPref.getInt("theme", 0);
 
     }
+    //sets background based on preferences
     public void setLayoutBackgrd(){
         if(themeID != 0){
             RelativeLayout setBkgrd = (RelativeLayout)findViewById(R.id.findLayout);
@@ -100,6 +106,7 @@ public class FindBook extends Activity{
         }
     }
 
+    //returns to main
     public void activateMain(View view) {
         finish();
     }
