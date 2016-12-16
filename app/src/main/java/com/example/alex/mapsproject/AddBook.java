@@ -14,7 +14,9 @@ import android.widget.Toast;
 
 
 /**
+ * File: AddBook.java
  * Created by Alex on 12/4/2016.
+ * Purpose: This class is used to add data from three edit text files and two doubles representing location to a database
  */
 public class AddBook extends Activity {
 
@@ -75,6 +77,7 @@ public class AddBook extends Activity {
         setLayoutBackgrd();
     }
 
+    //When submit button is pressed, data is grabbed from the three EditText boxes and then added to a DB
     public void onSubmit(View view){
         titleStr=titleET.getText().toString();
         authorStr=authorET.getText().toString();
@@ -100,6 +103,7 @@ public class AddBook extends Activity {
         //START THE ADD BOOK ACTIVITY
         startActivity(launchHome);
     }
+    //changes background color depending on user's preference
     public void setLayoutBackgrd(){
         if(themeID != 0){
             RelativeLayout setBkgrd = (RelativeLayout)findViewById(R.id.addBkLayout);
