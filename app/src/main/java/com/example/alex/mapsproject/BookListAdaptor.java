@@ -32,6 +32,7 @@ public class BookListAdaptor {
 
     private final Context mCtx;
 
+    //creates a database that holds an id, latitude, longitude, title, author, and genre or a book to borrow
     private static final String DATABASE_CREATE =
             "CREATE TABLE if not exists " + SQLITE_TABLE + " (" +
                     KEY_ROWID + " integer PRIMARY KEY autoincrement," +
@@ -81,6 +82,7 @@ public class BookListAdaptor {
         }
     }
 
+    //inserts data from parameters into the database
     public long createBook(int id, double myLat, double myLong, String title,String author, String genre) {
 
         ContentValues initialValues = new ContentValues();
@@ -95,6 +97,7 @@ public class BookListAdaptor {
         return mDb.insert(SQLITE_TABLE, null, initialValues);
     }
 
+    //deletes all entries in database
     public boolean deleteAllBooks() {
 
         int doneDelete = 0;
@@ -104,6 +107,7 @@ public class BookListAdaptor {
 
     }
 
+    //creates a query of items in the database that have title values that match the string value of string inputText
     public Cursor fetchBooksByTitle(String inputText) throws SQLException {
         Log.w(TAG, inputText);
         Cursor mCursor = null;
@@ -124,6 +128,7 @@ public class BookListAdaptor {
         return mCursor;
     }
 
+    //grabs all entries from the database
     public Cursor fetchAllBooks() {
 
         Cursor mCursor = mDb.query(SQLITE_TABLE, new String[] {KEY_ROWID, KEY_LAT, KEY_LONG,
@@ -136,6 +141,7 @@ public class BookListAdaptor {
         return mCursor;
     }
 
+    //inserts two premade items to the database
     public void insertSomeBooks() {
         createBook(1, 42.3, 18.6, "The Stranger","Albert Camus","Comedy");
         createBook(2, 100.3, 32.6, "Art of Going With It","Alex DiStasi","Comedy");
