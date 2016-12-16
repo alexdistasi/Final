@@ -12,13 +12,19 @@ import android.view.MenuItem;
 import android.util.Log;
 import android.widget.RelativeLayout;
 
+/**
+ * File: MainActivity.java
+ * Author: Alex DiStasi and Denise Fullerton
+ * Date: 12/4/2016
+ * Purpose: Act as Model for communcation between activities and database
+ */
 public class MainActivity extends Activity {
 
     private String name;
     private int themeID;
 
 
-    @Override
+    @Override  // instantiates actionbar and sets user settings onCreate, if settings are saved
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setPreferences();
@@ -26,12 +32,11 @@ public class MainActivity extends Activity {
         if(name!=null) {
             ab.setTitle(getResources().getString(R.string.app_name) + " - " + name);
         }
-
         setContentView(R.layout.activity_main);
         setLayoutBackgrd();
     }
 
-    @Override
+    @Override // sets layout based on Shared Preferences on resume -
     protected void onResume(){
         super.onResume();
         setPreferences();
@@ -41,6 +46,7 @@ public class MainActivity extends Activity {
     }
 
 
+    // onclick method to launch MapsActivity - AddBook is called from this activity
     public void launchAddBook(View view) {
         //CREATE AN INTENT TO DISPLAY THE ADD BOOK ACTIVITY
         Intent launchAddBook = new Intent(this, MapsActivity.class);
@@ -48,27 +54,23 @@ public class MainActivity extends Activity {
         startActivity(launchAddBook);
     }
 
+    // onclick method to launch FindBooks - user can enter search values in this activity
     public void launchFindBook(View view) {
         //CREATE AN INTENT TO DISPLAY THE FIND BOOK ACTIVITY
         Intent launchFindBook = new Intent(this, FindBook.class);
         //START THE FIND BOOK ACTIVITY
         startActivity(launchFindBook);
     }
-
+    
+    // onclick method to launch show_books - Adaptor view for stored books 
     public void launchShowBooks(View view){
         //CREATE AN INTENT TO DISPLAY THE FIND BOOK ACTIVITY
         Intent launchBook = new Intent(this, BookListViewCursorAdaptor.class);
         //START THE FIND BOOK ACTIVITY
         startActivity(launchBook);
     }
-//    public void launchPreferences(View view) {
-//
-//        //CREATE AN INTENT TO DISPLAY THE SETTINGS ACTIVITY
-//        Intent launchPref = new Intent(this, Preferences.class);
-//        //START THE SETTINGS ACTIVITY
-//        startActivity(launchPref);
-//    }
 
+    // sets background based on theme from SharedPreferences
     public void setLayoutBackgrd(){
         if(themeID != 0){
             RelativeLayout setMainBkgrd = (RelativeLayout)findViewById(R.id.actMain);
@@ -90,13 +92,13 @@ public class MainActivity extends Activity {
         }
     }
 
-    @Override
+    @Override// inflate actionbar - 
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.settings,menu);
         return true;
     }
 
-    @Override
+    @Override // Intent to launch Preferences activity where settings can be set by user
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
         if(id == R.id.usersetting){
@@ -110,11 +112,10 @@ public class MainActivity extends Activity {
     }
 
 
-    // save preferences
+    // create instance of SharedPreferences - used onCreate to establish user settings
     public void setPreferences(){
         //create instance of SharedPreferences
         SharedPreferences setPref = this.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE );
-
         //getfunctions to get data stored in sharedpref file
         name = setPref.getString("UserName","");
         themeID = setPref.getInt("theme", 0);
