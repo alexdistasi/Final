@@ -18,8 +18,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-/**
- * Created by Alex on 12/10/2016.
+ /**
+ * File: BookQueryListView.java
+ * Created by Alex DiStasi and Denise Fullerton
+ * Date: 12/10/2016
+ * Purpose: This class is used to list the books in the database on ViewBook activity and allow user to notify other users if there is an interest in a book
  */
 public class BookQueryListView extends Activity{
     private BookListAdaptor dbHelper2;
@@ -40,8 +43,10 @@ public class BookQueryListView extends Activity{
 
         //retrieves data from an intent in main
         qryTitle=qryBooks.getStringExtra("titleIn");
+        
         //Generate ListView from SQLite Database
         displayListView();
+        // gets the the user preferences and sets the preferences to the activity
         setPreferences();
         setLayoutBackgrd();
 
@@ -49,19 +54,15 @@ public class BookQueryListView extends Activity{
 
 
     private void displayListView() {
-
         Cursor cursor = dbHelper2.fetchBooksByTitle(qryTitle);
-
         // The desired columns to be bound
         String[] columns = new String[]{
-
                 //BookListAdaptor.KEY_ROWID,
                 BookListAdaptor.KEY_LAT,
                 BookListAdaptor.KEY_LONG,
                 BookListAdaptor.KEY_TITLE,
                 BookListAdaptor.KEY_AUTHOR,
                 BookListAdaptor.KEY_GENRE,
-
         };
 
         // the XML defined views which the data will be bound to
@@ -82,13 +83,13 @@ public class BookQueryListView extends Activity{
                 to,
                 0);
 
+        // register the listview 
         ListView listView = (ListView) findViewById(R.id.listView1);
         // Assign adapter to ListView
-
-        //LINEE THAT BREAKS
-        listView.setAdapter(dataAdapter);
+        listView.setAdapter(dataAdapter);        //LINEE THAT BREAKS
 
 
+        // on click listerner set to each book view in the list view object
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> listView, View view,
@@ -99,13 +100,10 @@ public class BookQueryListView extends Activity{
 
                 String titleName = cursor.getString(cursor.getColumnIndexOrThrow("title"));
                 titleName = "The book owner has been notified";
-                Toast.makeText(getApplicationContext(),
+                Toast.makeText(getApplicationContext(), // displays toast to let user know that the book owner will be notified
                         titleName, Toast.LENGTH_SHORT).show();
-
             }
         });
-
-
         dataAdapter.setFilterQueryProvider(new FilterQueryProvider() {
             public Cursor runQuery(CharSequence constraint) {
                 return dbHelper2.fetchBooksByTitle(constraint.toString());
@@ -114,7 +112,7 @@ public class BookQueryListView extends Activity{
     }
 
 
-    @Override
+    @Override // displays current/updated list on resume if activity is paused
     protected void onResume() {
         super.onResume();
         displayListView();
@@ -138,9 +136,10 @@ public class BookQueryListView extends Activity{
         //if (id == R.id.action_settings) {
         //    return true;
         //}
-
         return super.onOptionsItemSelected(item);
     }
+    
+    // sets actionBar and background with user preferences
     public void setLayoutBackgrd(){
         ActionBar ab=getActionBar();
         if(name!=null) {
@@ -162,6 +161,7 @@ public class BookQueryListView extends Activity{
         }
     }
 
+    // gets the user prefrences from Shared Preferences
     public void setPreferences() {
         //create instance of SharedPreferences
         SharedPreferences setPref = this.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
