@@ -9,10 +9,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
- * File Book List Adaptor
+ * File: BookListAdaptor.java
  * Authors: Alex DiStasi and Denise Fullerton
  * Date: 12/6/2016
- * Purpose: Creates a sql database and inserts data from AddBook into new database
+ * Purpose: -Create a sql database to store book information
+ *          -Insert data from AddBook into database
  */
 public class BookListAdaptor {
     public static final String KEY_ROWID = "_id";
@@ -32,7 +33,7 @@ public class BookListAdaptor {
 
     private final Context mCtx;
 
-    //creates a database that holds an id, latitude, longitude, title, author, and genre or a book to borrow
+    //creates a database that holds an id, latitude, longitude, title, author, and genre of a book to borrow
     private static final String DATABASE_CREATE =
             "CREATE TABLE if not exists " + SQLITE_TABLE + " (" +
                     KEY_ROWID + " integer PRIMARY KEY autoincrement," +
