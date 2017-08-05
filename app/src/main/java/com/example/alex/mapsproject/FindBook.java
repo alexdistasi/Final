@@ -64,13 +64,19 @@ public class FindBook extends Activity{
     }
 
     //on click, information is grabbed from edittext boxes to be used for a query in the database 
+   
+    /*
+    Function: findBooks
+    Parameters: view
+    Purpose: Grab data from 'Find Book' edittext boxes and run it through a query connected to app's database to
+            find entries that match the user's input. Then, display the results of the query in a ListView.
+    */
     public void findBooks(View view) {
         titleStr = titleET.getText().toString();
         authorStr = authorET.getText().toString();
         genreStr = genreET.getText().toString();
         Intent launchQry = new Intent(this, BookQueryListView.class);
         launchQry.putExtra("titleIn", titleStr);
-        //START THE ADD BOOK ACTIVITY
         startActivity(launchQry);
     }
 
