@@ -63,15 +63,11 @@ public class FindBook extends Activity{
         }
     }
 
-    //on button click, information is grabbed from edittext boxes to be used for a query in the database 
+    //on click, information is grabbed from edittext boxes to be used for a query in the database 
     public void findBooks(View view) {
         titleStr = titleET.getText().toString();
         authorStr = authorET.getText().toString();
         genreStr = genreET.getText().toString();
-        //Toast.makeText(this, "PRESSED BTN" , Toast.LENGTH_SHORT).show();
-        //myDB.fetchBooksByTitle(titleStr);
-        //Intent launchRes = new Intent(this, FindBook.class);
-        //launchRes.putExtra("DBTEST", myres);
         Intent launchQry = new Intent(this, BookQueryListView.class);
         launchQry.putExtra("titleIn", titleStr);
         //START THE ADD BOOK ACTIVITY
